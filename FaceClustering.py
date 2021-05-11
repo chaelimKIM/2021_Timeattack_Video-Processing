@@ -17,12 +17,14 @@ class FaceClustering:
         }
 
         files = os.listdir(img_path)
+        #print("files = ", files)
+        path = {}
         for i in files:
-            path = str(img_path) + str(i)
-            print(path)
-            FR = Fr(path, descs)
-            FR.save_npy() ###여기<<<
-            print(descs)
+            path.setdefault(i[:-4], str(img_path) + str(i))
+        #print("path = ", path)
+        FR = Fr(path, descs)
+        FR.save_npy()
+        #print("descs = ", descs)
 
 
     #수정중
