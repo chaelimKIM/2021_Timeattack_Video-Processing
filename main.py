@@ -1,20 +1,23 @@
 import cv2
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.patheffects as path_effects
 from FaceRecognition import FaceRecognition as Fr
 from VideoSlicing import VideoSlicing as Vs
+from FaceClustering import FaceClustering as Fc
 
-VS = Vs()
-VS.slicing()
+# 영상 slicing
+#VS = Vs()
+#VS.slicing()
 
-img_paths = {
-    'neo': 'img/neo.jpg',
-    'trinity': 'img/trinity.jpg',
-    'morpheus': 'img/morpheus.jpg',
-    'smith': 'img/smith.jpg'
-}
+#img_paths = {
+#    'neo': 'img/neo.jpg',
+#    'trinity': 'img/trinity.jpg',
+#    'morpheus': 'img/morpheus.jpg',
+#    'smith': 'img/smith.jpg'
+#}
 
 descs = {
     'neo': None,
@@ -25,13 +28,17 @@ descs = {
 # 입력받은 영상, 이미지로 수정해야 함
 # 지금은 임의 경로의 특정 파일로 지정되어있음
 
-FR = Fr(img_paths, descs)
-FR.save_npy()
-print(descs)
+img_path_dir = './slicing/'
+Fc.read_all_images(img_path_dir)
 
-img_rgb = FR.bgr2rgb(cv2.imread('img/matrix5.jpg'))
-rects, shapes, _ = FR.find_faces(img_rgb)
-descriptors = FR.encode_faces(img_rgb, shapes)
+#FR = Fr(img_paths, descs)
+#FR.save_npy()
+#print(descs)
+
+
+img_rgb = Fr.bgr2rgb(cv2.imread('img/matrix5.jpg'))
+rects, shapes, _ = Fr.find_faces(img_rgb)
+descriptors = Fr.encode_faces(img_rgb, shapes)
 # 코드 좀 더 간소화 할 필요 있음
 
 # Visualize Output
@@ -67,3 +74,4 @@ for i, desc in enumerate(descriptors):
 plt.axis('off')
 plt.savefig('result/output.png')
 plt.show()
+

@@ -2,7 +2,9 @@ import dlib
 import cv2
 import numpy as np
 
+# dlib의 얼굴 검출기 이용
 detector = dlib.get_frontal_face_detector()
+# 인식된 얼굴에서 랜드마크 찾기
 sp = dlib.shape_predictor('models/shape_predictor_68_face_landmarks.dat')
 facerec = dlib.face_recognition_model_v1('models/dlib_face_recognition_resnet_model_v1.dat')
 
