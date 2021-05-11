@@ -42,7 +42,7 @@ class FaceRecognition:
 
         return rects, shapes, shapes_np
 
-    def encode_faces(self, img, shapes):    # 68개의 점을 128개의 벡터로 변환
+    def encode_faces(self, img, shapes):    # 68개의 점을 128개의 벡터 표현으로 변환
         face_descriptors = []
         for shape in shapes:
             face_descriptor = facerec.compute_face_descriptor(img, shape)
