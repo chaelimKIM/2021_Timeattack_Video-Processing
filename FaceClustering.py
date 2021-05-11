@@ -23,7 +23,7 @@ class FaceClustering:
             path.setdefault(i[:-4], str(img_path) + str(i))
         #print("path = ", path)
         FR = Fr(path, descs)
-        FR.save_npy()
+        FR.save_npy('FC')
         #print("descs = ", descs)
 
 
