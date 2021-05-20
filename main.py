@@ -39,6 +39,12 @@ img_rgb = FR.bgr2rgb(cv2.imread('img/matrix5.jpg'))
 rects, shapes, _ = FR.find_faces(img_rgb)
 descriptors = FR.encode_faces(img_rgb, shapes)
 
+# compare_faces 테스트
+img1 = FR.bgr2rgb(cv2.imread('img/1.jpg'))
+img2 = FR.bgr2rgb(cv2.imread('img/2.jpg'))
+tf = FR.compare_faces(img1, img2)
+print(tf)
+
 # Visualize Output
 fig, ax = plt.subplots(1, figsize=(10, 10))
 ax.imshow(img_rgb)
