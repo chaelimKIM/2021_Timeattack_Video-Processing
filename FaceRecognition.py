@@ -65,4 +65,17 @@ class FaceRecognition:
 
         np.save('img/descs_' + img_name + '.npy', self.descs)
         #print(self.descs)
-        print("npy save complete")
+        print("npy save complete : ", img_name)
+        
+    def compare_faces(self, img1, img2):    # rgb형식의 이미지 2개를 비교
+        tf = False
+        rects1, shapes1, _ = self.find_faces(img1)
+        descriptors1 = self.encode_faces(img1, shapes1)
+        rects2, shapes2, _ = self.find_faces(img2)
+        descriptors2 = self.encode_faces(img2, shapes2)
+
+        dist = np.linalg.norm(descriptors1 - descriptors2, axis=1)
+        if dist < 0.6:    # 같은 얼굴로 판별하는 기준
+            tf = True
+
+        return tf
