@@ -42,13 +42,22 @@ class FaceRecognition:
 
         return rects, shapes, shapes_np
 
-    def encode_faces(self, img, shapes):    # 68개의 점을 128개의 벡터로 변환
+    def encode_faces(self, img, shapes):  # 68개의 점을 128개의 벡터로 변환
         face_descriptors = []
+        count = 0
         for shape in shapes:
             face_descriptor = facerec.compute_face_descriptor(img, shape)
-            face_descriptors.append(np.array(face_descriptor))
+            face_descriptors.append(face_descriptor)
+            count = count + 1
+        return count, face_descriptors
 
-        return np.array(face_descriptors)
+    # def encode_faces(self, img, shapes):    # 68개의 점을 128개의 벡터로 변환
+    #     face_descriptors = []
+    #     for shape in shapes:
+    #         face_descriptor = facerec.compute_face_descriptor(img, shape)
+    #         face_descriptors.append(np.array(face_descriptor))
+    #
+    #     return np.array(face_descriptors)
 
     def bgr2rgb(self, img_bgr):    # bgr 형식 이미지를 rgb 형식 이미지로 바꾸는 함수
         img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)

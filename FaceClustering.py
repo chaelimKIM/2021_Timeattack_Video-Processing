@@ -1,20 +1,16 @@
 import cv2
 import os
 import numpy as np
-from sklearn.cluster import DBSCAN
+from sklearn.cluster import DBSCAN, KMeans
 from FaceRecognition import FaceRecognition as Fr
+
 
 class FaceClustering:
 
-    def read_all_images(img_path):
-        # 이미지 경로
-        # 이미지 읽어오기
-        descs = {
-            'neo': None,
-            'trinity': None,
-            'morpheus': None,
-            'smith': None
-        }
+    # 폴더 내의 이미지들 얼굴 인식
+    def clustering(img_path):
+
+        descs = { }
 
         files = os.listdir(img_path)
         #print("files = ", files)
@@ -23,40 +19,36 @@ class FaceClustering:
             path.setdefault(i[:-4], str(img_path) + str(i))
         #print("path = ", path)
         FR = Fr(path, descs)
-        FR.save_npy('FC')
-        #print("descs = ", descs)
+        #FR.save_npy('FC')
+        # print("descs = ", descs)
 
+        #얼굴 데이터
+        faces = []
+        #각각의 img에 몇명의 사람이 존재하는가
+        faces_count = []
 
-    #수정중
-    def cluster(self):
-        encodings = [face.encoding for face in self.faces]
+        for i in files:
+            img_rgb = FR.bgr2rgb(cv2.imread(str(img_path) + str(i)))
+            rects, shapes, _ = FR.find_faces(img_rgb)
+            n, descriptors = FR.encode_faces(img_rgb, shapes)
+            faces += descriptors
+            faces_count.append(n)
+        faces = np.array(faces)
 
         # clustering
-        clt = DBSCAN(metric="euclidean")
-        clt.fit(encodings)
+        clt = DBSCAN(eps=0.5, metric="euclidean")
+        # clt.fit(faces)
 
-        # label_ids = 얼굴 id
-        label_ids = np.unique(clt.labels_)
-        # num_unique_faces = label의 갯수
-        num_unique_faces = len(np.where(label_ids > -1)[0])
+        kmeans = KMeans(n_clusters=4, random_state=0).fit(faces)
+        kmeans.labels_
 
-        # 얼굴 id
-        for label_id in label_ids:
-            # directory 만들기 / 해당 얼굴 그림 저장됨
-            dir_name = "ID%d" % label_id
-            os.mkdir(dir_name)
-
-            # label에 해당하는 index를 모두 얻어옴
-            indexes = np.where(clt.labels_ == label_id)[0]
-
-            # label에 해당하는 모든 얼굴을 ID# 디렉토리에 저장
-            for i in indexes:
-                frame_id = self.faces[i].frame_id
-                box = self.faces[i].box
-                pathname = os.path.join(self.capture_dir,
-                                        self.capture_filename(frame_id))
-                image = cv2.imread(pathname)
-                face_image = self.getFaceImage(image, box)
-                filename = dir_name + "-" + self.capture_filename(frame_id)
-                pathname = os.path.join(dir_name, filename)
-                cv2.imwrite(pathname, face_image)
+        print("kmeans labels")
+        print(kmeans.labels_)
+        # # label_ids = 얼굴 id
+        # label_ids = np.unique(clt.labels_)
+        # print("clt labels")
+        # print(clt.labels_)
+        # # num_unique_faces = label의 갯수
+        # num_unique_faces = len(np.where(label_ids > -1)[0])
+        #
+        # print("num_unique_faces = ", num_unique_faces)
