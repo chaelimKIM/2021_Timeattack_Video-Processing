@@ -51,14 +51,6 @@ class FaceRecognition:
             count = count + 1
         return count, face_descriptors
 
-    # def encode_faces(self, img, shapes):    # 68개의 점을 128개의 벡터로 변환
-    #     face_descriptors = []
-    #     for shape in shapes:
-    #         face_descriptor = facerec.compute_face_descriptor(img, shape)
-    #         face_descriptors.append(np.array(face_descriptor))
-    #
-    #     return np.array(face_descriptors)
-
     def bgr2rgb(self, img_bgr):    # bgr 형식 이미지를 rgb 형식 이미지로 바꾸는 함수
         img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
 
@@ -76,15 +68,17 @@ class FaceRecognition:
         #print(self.descs)
         print("npy save complete : ", img_name)
         
-    def compare_faces(self, img1, img2):    # rgb형식의 이미지 2개를 비교
+        def compare_faces(self, img1, img2):  # rgb형식의 이미지 2개를 비교
         tf = False
+        img1 = self.bgr2rgb(img1)
+        img2 = self.bgr2rgb(img2)
         rects1, shapes1, _ = self.find_faces(img1)
-        descriptors1 = self.encode_faces(img1, shapes1)
+        _, descriptors1 = self.encode_faces(img1, shapes1)
         rects2, shapes2, _ = self.find_faces(img2)
-        descriptors2 = self.encode_faces(img2, shapes2)
+        _, descriptors2 = self.encode_faces(img2, shapes2)
 
-        dist = np.linalg.norm(descriptors1 - descriptors2, axis=1)
-        if dist < 0.6:    # 같은 얼굴로 판별하는 기준
+        dist = np.linalg.norm(np.array(descriptors1) - np.array(descriptors2), axis=1)
+        if dist < 0.6:  # 같은 얼굴로 판별하는 기준
             tf = True
 
         return tf
