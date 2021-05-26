@@ -9,6 +9,8 @@ class VideoSlicing:
 
     def slicing(self):
         count = 0
+        fps = self.video.get(cv2.CAP_PROP_FPS)
+
         while self.video.isOpened():
             ret, frame = self.video.read()
 
@@ -16,11 +18,12 @@ class VideoSlicing:
             if not ret:
                 break
 
-            # 현재 시간
-            now = datetime.datetime.now().strftime("%d_%H-%M-%S__")
+            if int(self.video.get(1))%fps == 0:
+                # 현재 시간
+                now = datetime.datetime.now().strftime("%d_%H-%M-%S__")
 
-            # 캡쳐한 이미지 저장 경로
-            cv2.imwrite("slicing/" + str(now) + str(count) + ".png", frame)
-            count += 1
+                # 캡쳐한 이미지 저장 경로
+                cv2.imwrite("slicing/" + str(now) + str(count) + ".png", frame)
+                count += 1
 
         self.video.release()
