@@ -40,8 +40,8 @@ rects, shapes, _ = FR.find_faces(img_rgb)
 descriptors = FR.encode_faces(img_rgb, shapes)
 
 # compare_faces 테스트
-img1 = FR.bgr2rgb(cv2.imread('img/1.jpg'))
-img2 = FR.bgr2rgb(cv2.imread('img/2.jpg'))
+img1 = cv2.imread('img/1.jpg')
+img2 = cv2.imread('img/2.jpg')
 tf = FR.compare_faces(img1, img2)
 print(tf)
 
