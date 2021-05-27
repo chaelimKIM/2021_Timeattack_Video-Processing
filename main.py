@@ -31,13 +31,13 @@ descs = {
 img_path_dir = './slicing/'
 Fc.clustering(img_path_dir)
 
-
-# main에서 FR 클래스 테스트
+#
+# # main에서 FR 클래스 테스트
 FR = Fr(img_paths, descs)
-FR.save_npy('m5')
-img_rgb = FR.bgr2rgb(cv2.imread('img/matrix5.jpg'))
-rects, shapes, _ = FR.find_faces(img_rgb)
-descriptors = FR.encode_faces(img_rgb, shapes)
+# FR.save_npy('m5')
+# img_rgb = FR.bgr2rgb(cv2.imread('img/matrix5.jpg'))
+# rects, shapes, _ = FR.find_faces(img_rgb)
+# descriptors = FR.encode_faces(img_rgb, shapes)
 
 # compare_faces 테스트
 img1 = cv2.imread('img/1.jpg')

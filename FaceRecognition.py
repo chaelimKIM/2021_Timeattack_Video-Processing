@@ -68,7 +68,7 @@ class FaceRecognition:
         #print(self.descs)
         print("npy save complete : ", img_name)
         
-        def compare_faces(self, img1, img2):  # rgb형식의 이미지 2개를 비교
+    def compare_faces(self, img1, img2):  # rgb형식의 이미지 2개를 비교
         tf = False
         img1 = self.bgr2rgb(img1)
         img2 = self.bgr2rgb(img2)
