@@ -31,11 +31,11 @@ class DB:
             curs.execute(sql)
             data = curs.fetchone()
             for pr in data:
-                if pr == 1:
-                    sql = "UPDATE upload SET processing=0 WHERE up_id=" + str(up_id)
-                    curs.execute(sql)
-                elif pr == 0:
+                if pr == 0:
                     sql = "UPDATE upload SET processing=-1 WHERE up_id=" + str(up_id)
+                    curs.execute(sql)
+                elif pr == -1:
+                    sql = "UPDATE upload SET processing=1 WHERE up_id=" + str(up_id)
                     curs.execute(sql)
                 else:
                     print("Unavaliable processing value!")
@@ -43,7 +43,7 @@ class DB:
 
     def select_upid_by_processing(self):
         with DataBase.cursor() as curs:
-            sql = "SELECT up_id FROM upload WHERE processing=1"
+            sql = "SELECT up_id FROM upload WHERE processing=0"
             curs.execute(sql)
             data = curs.fetchone()
             for up_id in data:
