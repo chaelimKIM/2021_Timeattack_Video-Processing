@@ -4,8 +4,8 @@ import datetime
 
 class VideoSlicing:
 
-    def __init__(self):
-        self.video = cv2.VideoCapture("vid/sample.mp4")    # 동영상 입력 경로
+    def __init__(self, up_vid_path):
+        self.video = cv2.VideoCapture(up_vid_path)    # 동영상 입력 경로
 
     def slicing(self):
         count = 0
