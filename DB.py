@@ -23,12 +23,38 @@ except:
     print("Connection failed")    # 연결 실패 시 출력
 
 
-# 테스트용
-class UploadDB:
+class DB:
 
-    def __init__(self):
-        test = None
+    def update_processing(self, up_id):
+        with DataBase.cursor() as curs:
+            sql = "SELECT processing FROM upload WHERE up_id=" + str(up_id)
+            curs.execute(sql)
+            data = curs.fetchone()
+            for pr in data:
+                if pr == 1:
+                    sql = "UPDATE upload SET processing=0 WHERE up_id=" + str(up_id)
+                    curs.execute(sql)
+                elif pr == 0:
+                    sql = "UPDATE upload SET processing=-1 WHERE up_id=" + str(up_id)
+                    curs.execute(sql)
+                else:
+                    print("Unavaliable processing value!")
+                    return
 
+    def select_upid_by_processing(self):
+        with DataBase.cursor() as curs:
+            sql = "SELECT up_id FROM upload WHERE processing=1"
+            curs.execute(sql)
+            data = curs.fetchone()
+            for up_id in data:
+                self.update_processing(up_id)
+                return up_id
 
-#class SelectDB:
-
+    def select_vidpath(self, up_id):
+        with DataBase.cursor() as curs:
+            sql = "SELECT up_vid_path FROM upload_vid WHERE up_vid_id=" + str(up_id)
+            curs.execute(sql)
+            data = curs.fetchall()
+            for i in data:
+                for up_vid_path in i:
+                    return up_vid_path
