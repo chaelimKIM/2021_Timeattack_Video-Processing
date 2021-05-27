@@ -7,10 +7,13 @@ import matplotlib.patheffects as path_effects
 from FaceRecognition import FaceRecognition as Fr
 from VideoSlicing import VideoSlicing as Vs
 from FaceClustering import FaceClustering as Fc
+from DB import DB
 
-# 영상 slicing
-#VS = Vs()
-#VS.slicing()
+# processing test
+SD = DB()
+up_id = SD.select_upid_by_processing()
+up_vid_path = SD.select_vidpath(up_id)
+VS = Vs(up_vid_path)
 
 # main에서 테스트하기 위해 특정 경로의 특정 파일 지정
 img_paths = {
