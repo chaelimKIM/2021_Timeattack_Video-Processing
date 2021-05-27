@@ -5,11 +5,11 @@ import datetime
 class VideoSlicing:
 
     def __init__(self, up_vid_path):
-        self.video = cv2.VideoCapture(up_vid_path)    # 동영상 입력 경로
+        self.video = cv2.VideoCapture(up_vid_path)  # 동영상 입력 경로
 
     def slicing(self):
         count = 0
-        fps = self.video.get(cv2.CAP_PROP_FPS)
+        fps = int(self.video.get(cv2.CAP_PROP_FPS))
 
         while self.video.isOpened():
             ret, frame = self.video.read()
@@ -18,7 +18,7 @@ class VideoSlicing:
             if not ret:
                 break
 
-            if int(self.video.get(1))%fps == 0:
+            if int(self.video.get(1)) % fps == 0:
                 # 현재 시간
                 now = datetime.datetime.now().strftime("%d_%H-%M-%S__")
 

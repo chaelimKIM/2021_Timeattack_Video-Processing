@@ -13,7 +13,7 @@ from DB import DB
 SD = DB()
 up_id = SD.select_upid_by_processing()
 up_vid_path = SD.select_vidpath(up_id)
-VS = Vs(up_vid_path)
+VS = Vs(up_vid_path).slicing()
 
 # main에서 테스트하기 위해 특정 경로의 특정 파일 지정
 img_paths = {
