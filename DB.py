@@ -38,7 +38,7 @@ class DB:
                     sql = "UPDATE upload SET processing=1 WHERE up_id=" + str(up_id)
                     curs.execute(sql)
                 else:
-                    print("Unavaliable processing value!")
+                    print("Unavailable processing value!")
                     return
 
     def select_upid_by_processing(self):
