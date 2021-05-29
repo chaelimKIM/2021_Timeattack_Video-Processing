@@ -31,3 +31,4 @@ for rep_img_path in rep_img_paths:
         FC.save_result(label_index, up_id)
         break
     i += 1
+DB.update_processing(up_id)
