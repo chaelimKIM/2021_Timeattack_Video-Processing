@@ -74,3 +74,4 @@ class FaceClustering:
                 img = cv2.imread(target_path)
                 cv2.imwrite("C:/Users/MunsuYu/TimeAttack/TimeAttackFile/result/" + target_path[11+len(str(up_id)):],
                             img)
+            i += 1
