@@ -32,10 +32,8 @@ class FaceClustering:
         # clt.fit(faces)
 
         self.kmeans = KMeans(n_clusters=4, random_state=0).fit(faces)
-        self.kmeans.labels_
 
-        print("kmeans labels")
-        print(self.kmeans.labels_)
+        print("kmeans labels =", self.kmeans.labels_)
 
     def rep_img(self):
         rep_img_paths = []  # 대표이미지 경로 저장
