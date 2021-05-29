@@ -23,10 +23,10 @@ class VideoSlicing:
 
             if int(self.video.get(1)) % fps == 0:
                 # 현재 시간
-                now = datetime.datetime.now().strftime("%d_%H-%M-%S__")
+                # now = datetime.datetime.now().strftime("%d_%H-%M-%S__")
 
                 # 캡쳐한 이미지 저장 경로
-                cv2.imwrite("slicing/" + str(self.up_id) + "/" + str(now) + str(count) + ".png", frame)
+                cv2.imwrite("slicing/" + str(self.up_id) + "/" + str(count) + ".png", frame)
                 count += 1
 
         self.video.release()
