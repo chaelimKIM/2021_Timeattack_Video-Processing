@@ -6,65 +6,71 @@ from FaceRecognition import FaceRecognition as Fr
 
 
 class FaceClustering:
+    def __init__(self, img_path):
+        self.img_path = img_path
+        self.files = os.listdir(img_path)
+        self.path = []
+        for i in self.files:
+            self.path.append(str(img_path) + str(i))
+        self.faces = []
+        self.faces_count = []    # 각각의 img에 몇명의 사람이 존재하는가
+        self.kmeans = None
 
     # 폴더 내의 이미지들 얼굴 인식
-    @staticmethod
-    def clustering(img_path):
-        files = os.listdir(img_path)
-        # print("files = ", files)
-        path = []
-        for i in files:
-            path.append(str(img_path) + str(i))
-        # print(path)
-
-        # 얼굴 데이터
-        faces = []
-        # 각각의 img에 몇명의 사람이 존재하는가
-        faces_count = []
-
-        for i in files:
-            img_rgb = Fr.bgr2rgb(cv2.imread(str(img_path) + str(i)))
+    def clustering(self):
+        for i in self.files:
+            img_rgb = Fr.bgr2rgb(cv2.imread(str(self.img_path) + str(i)))
             _, shapes, _ = Fr.find_faces(img_rgb)
             n, descriptors = Fr.encode_faces(img_rgb, shapes)
-            faces += descriptors
-            faces_count.append(n)
-        faces = np.array(faces)
+            self.faces += descriptors
+            self.faces_count.append(n)
+        faces = np.array(self.faces)
 
         # clustering
         # clt = DBSCAN(eps=0.5, metric="euclidean")
         # clt.fit(faces)
 
-        kmeans = KMeans(n_clusters=4, random_state=0).fit(faces)
-        kmeans.labels_
+        self.kmeans = KMeans(n_clusters=4, random_state=0).fit(faces)
+        self.kmeans.labels_
 
         print("kmeans labels")
-        print(kmeans.labels_)
+        print(self.kmeans.labels_)
 
-        rep_img_paths = []    # 대표이미지 경로 저장
-        image_label = []
-        cluster_count = 4    # 클러스터링 할 인물 수
+    def rep_img(self):
+        rep_img_paths = []  # 대표이미지 경로 저장
+        label_indexs = []
+        cluster_count = 4  # 클러스터링 할 인물 수
         c = 0
         while c < cluster_count:
             rep_img_paths.append('')
-            image_label.append(0)
+            label_indexs.append(0)
             c += 1
 
         k = 0
         c = 0
-        for i in faces_count:
-            for j in range(c, c+i):
+        for i in self.faces_count:
+            for j in range(c, c + i):
                 # print(path[k])
-                id = kmeans.labels_[j]
+                id = self.kmeans.labels_[j]
                 if rep_img_paths[id] == '':
-                    rep_img_paths[id] = str(path[k])
-                    image_label[id] = j
+                    rep_img_paths[id] = str(self.path[k])
+                    label_indexs[id] = j
                 else:
-                    if np.linalg.norm(kmeans.cluster_centers_[id] - faces[j]) < \
-                       np.linalg.norm(kmeans.cluster_centers_[id] - faces[image_label[id]]):
-                        rep_img_paths[id] = str(path[k])
-                        image_label[id] = j
+                    if np.linalg.norm(self.kmeans.cluster_centers_[id] - self.faces[j]) < \
+                            np.linalg.norm(self.kmeans.cluster_centers_[id] - self.faces[label_indexs[id]]):
+                        rep_img_paths[id] = str(self.path[k])
+                        label_indexs[id] = j
                 c = c + i
             k += 1
 
-        return rep_img_paths
-        # print(image_label)
+        return rep_img_paths, label_indexs
+
+    def save_result(self, label_index, up_id):
+        target = self.kmeans.labels_[label_index]
+        i = 0
+        for lab in self.kmeans.labels_:
+            target_path = self.path[i]
+            if lab == target:
+                img = cv2.imread(target_path)
+                cv2.imwrite("C:/Users/MunsuYu/TimeAttack/TimeAttackFile/result/" + target_path[11+len(str(up_id)):],
+                            img)
