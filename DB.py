@@ -70,7 +70,7 @@ class DB:
             return data[0][0]
 
     @staticmethod
-    def select_upimgpath(up_id):
+    def select_facecount(up_id):
         with DataBase.cursor() as curs:
             sql = "SELECT face_count FROM upload WHERE up_id=" + str(up_id)
             curs.execute(sql)
