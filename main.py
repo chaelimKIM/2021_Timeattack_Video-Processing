@@ -10,8 +10,6 @@ up_id = DB.select_upid_by_processing()
 up_vid_path = DB.select_upvidpath(up_id)
 VS = Vs(up_vid_path, up_id)
 
-Fc.clustering("./slicing/" + str(up_id) + "/")
-
 FR = Fr()
 up_img_path = DB.select_upimgpath(up_id)
 up_img = cv2.imread(up_img_path)
