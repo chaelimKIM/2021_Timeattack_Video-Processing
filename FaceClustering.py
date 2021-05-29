@@ -80,10 +80,23 @@ class FaceClustering:
         CreateDirectory.create(path)
         target = self.kmeans.labels_[label_index]
         i = 0
-        for lab in self.kmeans.labels_:
-            target_path = self.path[i]
-            if lab == target:
-                img = cv2.imread(target_path)
-                cv2.imwrite(path + "/" + target_path[11+len(str(up_id)):],
-                            img)
-            i += 1
+
+        k = 0
+        c = 0
+        for i in self.faces_count:
+            for j in range(c, c + i):
+                if(target == self.kmeans.labels_[j]):
+                    img = cv2.imread(self.path[k])
+                    cv2.imwrite(path + "/" + str(j), img)
+                    break
+            c = c + i
+            k += 1
+
+        #     
+        # for lab in self.kmeans.labels_:
+        #     target_path = self.path[i]
+        #     if lab == target:
+        #         img = cv2.imread(target_path)
+        #         cv2.imwrite(path + "/" + target_path[11+len(str(up_id)):],
+        #                     img)
+        #     i += 1
