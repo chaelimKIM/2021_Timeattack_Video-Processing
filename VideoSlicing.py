@@ -1,5 +1,6 @@
 import cv2
 import datetime
+import CreateDirectory
 
 
 class VideoSlicing:
@@ -9,6 +10,7 @@ class VideoSlicing:
         self.up_id = up_id
 
     def slicing(self):
+        CreateDirectory.create('slicing/' + str(self.up_id))
         count = 0
         fps = int(self.video.get(cv2.CAP_PROP_FPS))
 
