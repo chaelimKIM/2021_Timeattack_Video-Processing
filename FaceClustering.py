@@ -3,6 +3,7 @@ import os
 import numpy as np
 from sklearn.cluster import DBSCAN, KMeans
 from FaceRecognition import FaceRecognition as Fr
+import CreateDirectory
 
 
 class FaceClustering:
@@ -66,12 +67,14 @@ class FaceClustering:
         return rep_img_paths, label_indexs
 
     def save_result(self, label_index, up_id):
+        path = "C:/Users/MunsuYu/TimeAttack/TimeAttackFile/result/" + str(up_id)
+        CreateDirectory.create(path)
         target = self.kmeans.labels_[label_index]
         i = 0
         for lab in self.kmeans.labels_:
             target_path = self.path[i]
             if lab == target:
                 img = cv2.imread(target_path)
-                cv2.imwrite("C:/Users/MunsuYu/TimeAttack/TimeAttackFile/result/" + target_path[11+len(str(up_id)):],
+                cv2.imwrite(path + "/" + target_path[11+len(str(up_id)):],
                             img)
             i += 1
