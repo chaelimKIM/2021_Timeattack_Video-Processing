@@ -34,6 +34,7 @@ class FaceClustering:
         self.kmeans = KMeans(n_clusters=4, random_state=0).fit(faces)
 
         print("kmeans labels =", self.kmeans.labels_)
+        print("face_counts =", self.faces_count)
 
     def rep_img(self):
         rep_img_paths = []  # 대표이미지 경로 저장
@@ -45,11 +46,16 @@ class FaceClustering:
             label_indexs.append(0)
             c += 1
 
+        # print("rep_img_path")
+        # print(rep_img_paths)
+        # print("label_index")
+        # print(label_indexs)
+
         k = 0
         c = 0
         for i in self.faces_count:
-            for j in range(c, c + i - 1):
-                # print(path[k])
+            for j in range(c, c + i):
+                print(c)
                 id = self.kmeans.labels_[j]
                 if rep_img_paths[id] == '':
                     rep_img_paths[id] = str(self.path[k])
@@ -59,8 +65,13 @@ class FaceClustering:
                             np.linalg.norm(self.kmeans.cluster_centers_[id] - self.faces[label_indexs[id]]):
                         rep_img_paths[id] = str(self.path[k])
                         label_indexs[id] = j
-                c = c + i
+            c = c + i
             k += 1
+
+        # print("rep_img_path")
+        # print(rep_img_paths)
+        # print("label_index")
+        # print(label_indexs)
 
         return rep_img_paths, label_indexs
 
