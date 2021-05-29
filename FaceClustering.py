@@ -49,7 +49,7 @@ class FaceClustering:
         k = 0
         c = 0
         for i in self.faces_count:
-            for j in range(c, c + i):
+            for j in range(c, c + i - 1):
                 # print(path[k])
                 id = self.kmeans.labels_[j]
                 if rep_img_paths[id] == '':
