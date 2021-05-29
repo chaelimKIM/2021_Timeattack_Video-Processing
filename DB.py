@@ -25,7 +25,8 @@ except:
 
 class DB:
 
-    def update_processing(self, up_id):
+    @staticmethod
+    def update_processing(up_id):
         with DataBase.cursor() as curs:
             sql = "SELECT processing FROM upload WHERE up_id=" + str(up_id)
             curs.execute(sql)
@@ -34,9 +35,11 @@ class DB:
                 if pr == 0:
                     sql = "UPDATE upload SET processing=-1 WHERE up_id=" + str(up_id)
                     curs.execute(sql)
+                    DataBase.commit()
                 elif pr == -1:
                     sql = "UPDATE upload SET processing=1 WHERE up_id=" + str(up_id)
                     curs.execute(sql)
+                    DataBase.commit()
                 else:
                     print("Unavailable processing value!")
                     return
@@ -50,11 +53,26 @@ class DB:
                 self.update_processing(up_id)
                 return up_id
 
-    def select_vidpath(self, up_id):
+    @staticmethod
+    def select_upvidpath(up_id):
         with DataBase.cursor() as curs:
             sql = "SELECT up_vid_path FROM upload_vid WHERE up_vid_id=" + str(up_id)
             curs.execute(sql)
             data = curs.fetchall()
-            for i in data:
-                for up_vid_path in i:
-                    return up_vid_path
+            return data[0][0]
+
+    @staticmethod
+    def select_upimgpath(up_id):
+        with DataBase.cursor() as curs:
+            sql = "SELECT up_img_path FROM upload_img WHERE up_img_id=" + str(up_id)
+            curs.execute(sql)
+            data = curs.fetchall()
+            return data[0][0]
+
+    @staticmethod
+    def select_upimgpath(up_id):
+        with DataBase.cursor() as curs:
+            sql = "SELECT face_count FROM upload WHERE up_id=" + str(up_id)
+            curs.execute(sql)
+            data = curs.fetchall()
+            return data[0][0]
