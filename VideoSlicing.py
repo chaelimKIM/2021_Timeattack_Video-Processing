@@ -4,8 +4,9 @@ import datetime
 
 class VideoSlicing:
 
-    def __init__(self, up_vid_path):
+    def __init__(self, up_vid_path, up_id):
         self.video = cv2.VideoCapture(up_vid_path)  # 동영상 입력 경로
+        self.up_id = up_id
 
     def slicing(self):
         count = 0
@@ -23,7 +24,7 @@ class VideoSlicing:
                 now = datetime.datetime.now().strftime("%d_%H-%M-%S__")
 
                 # 캡쳐한 이미지 저장 경로
-                cv2.imwrite("slicing/" + str(now) + str(count) + ".png", frame)
+                cv2.imwrite("slicing/" + str(self.up_id) + "/" + str(now) + str(count) + ".png", frame)
                 count += 1
 
         self.video.release()
