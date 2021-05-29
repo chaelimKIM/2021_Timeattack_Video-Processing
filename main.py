@@ -23,21 +23,11 @@ i = 0
 for rep_img_path in rep_img_paths:
     label_index = label_indexs[i]
     rep_img = cv2.imread(rep_img_path)
+    cv2.imshow("rep_img", rep_img)
+    cv2.waitKey(0)
+    cv2.imshow("up_img", up_img)
+    cv2.waitKey(0)
     if FR.compare_faces(rep_img, up_img):
         FC.save_result(label_index, up_id)
         break
     i += 1
-
-# # test
-# FC = Fc("./slicing/1/")
-# FC.clustering()
-# rep_img_paths, label_indexs = FC.rep_img()
-# i = 0
-# for rep_img_path in rep_img_paths:
-#     label_index = label_indexs[i]
-#     i += 1
-#     print("rep_img_path =", rep_img_path)
-#     print("ㄴlabel_index =", label_index)
-#     # rep_img = cv2.imread(rep_img_path)
-#     # if FR.compare_faces(rep_img, up_img):
-#     #     break
