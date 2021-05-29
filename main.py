@@ -15,10 +15,9 @@ Fc.clustering("./slicing/" + str(up_id) + "/")
 FR = Fr()
 up_img_path = DB.select_upimgpath(up_id)
 up_img = cv2.imread(up_img_path)
-rep_img_paths = []
 rep_img_paths = Fc.clustering("./slicing/" + str(up_id) + "/")
-for clt_img_path in rep_img_paths:
-    clt_img = cv2.imread(clt_img_path)
-    if FR.compare_faces(clt_img, up_img):
+for rep_img_path in rep_img_paths:
+    rep_img = cv2.imread(rep_img_path)
+    if FR.compare_faces(rep_img, up_img):
         # result에 저장
         break
