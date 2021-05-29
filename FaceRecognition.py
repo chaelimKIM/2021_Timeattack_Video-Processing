@@ -64,7 +64,7 @@ class FaceRecognition:
         _, descriptors2 = self.encode_faces(img2, shapes2)
 
         dist = np.linalg.norm(np.array(descriptors1) - np.array(descriptors2), axis=1)
-        if dist < 0.6:  # 같은 얼굴로 판별하는 기준
+        if np.any(dist) < 0.6:  # 같은 얼굴로 판별하는 기준
             tf = True
 
         return tf
