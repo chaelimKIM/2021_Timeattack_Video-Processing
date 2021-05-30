@@ -88,7 +88,8 @@ class FaceClustering:
             for j in range(c, c + i):
                 if(target == self.kmeans.labels_[j]):
                     img = cv2.imread(self.path[k])
-                    cv2.imwrite(path + "/" + str(j) + ".png", img)
+                    # cv2.imwrite(path + "/" + str(j) + ".png", img)
+                    cv2.imwrite(path + "/" + self.path[k][9+len(str(up_id)):], img)
                     result.append(j)
                     break
             c = c + i
