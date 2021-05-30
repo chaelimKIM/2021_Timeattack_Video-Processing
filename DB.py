@@ -1,5 +1,7 @@
 import pymysql
 
+import Result
+
 DataBase = pymysql.connect(
     host="115.138.67.190",
     user="root",
@@ -7,7 +9,7 @@ DataBase = pymysql.connect(
     port=3306,
     database="TimeAttack",
     charset="utf8"
-)    # MySQL DB에 연결
+)  # MySQL DB에 연결
 try:
     with DataBase.cursor() as curs:
         sql = "SELECT VERSION()"
@@ -18,9 +20,9 @@ try:
             for data in row:
                 print(data, end=' ')
 
-        print("DB Connected")    # 연결 성공 시 출력
+        print("DB Connected")  # 연결 성공 시 출력
 except:
-    print("Connection failed")    # 연결 실패 시 출력
+    print("Connection failed")  # 연결 실패 시 출력
 
 
 class DB:
@@ -76,3 +78,21 @@ class DB:
             curs.execute(sql)
             data = curs.fetchall()
             return data[0][0]
+
+    @staticmethod
+    def insert_result(up_id, result):
+        with DataBase.cursor() as curs:
+            path = result
+            j=0
+            result = Result.convert_values(result)
+
+            val = []
+            for i in result:
+                section = [str(path[j])+".png", i, " ", int(up_id)]
+                tuple(section)
+                val.append(section)
+                j=j+1
+
+            sql = "INSERT INTO result_section (img_path, start, end, upload_id) VALUES (%s, %s, %s, %s)"
+            curs.executemany(sql, val)
+            DataBase.commit()
