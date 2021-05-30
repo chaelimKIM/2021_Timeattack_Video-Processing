@@ -23,10 +23,7 @@ i = 0
 for rep_img_path in rep_img_paths:
     label_index = label_indexs[i]
     rep_img = cv2.imread(rep_img_path)
-    cv2.imshow("rep_img", rep_img)
-    cv2.waitKey(0)
-    cv2.imshow("up_img", up_img)
-    cv2.waitKey(0)
+
     if FR.compare_faces(rep_img, up_img):
         FC.save_result(label_index, up_id)
         break

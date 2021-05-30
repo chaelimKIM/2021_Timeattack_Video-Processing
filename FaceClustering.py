@@ -31,7 +31,7 @@ class FaceClustering:
         # clt = DBSCAN(eps=0.5, metric="euclidean")
         # clt.fit(faces)
 
-        self.kmeans = KMeans(n_clusters=4, random_state=0).fit(faces)
+        self.kmeans = KMeans(n_clusters=2, random_state=0).fit(faces)
 
         print("kmeans labels =", self.kmeans.labels_)
         print("face_counts =", self.faces_count)
@@ -39,7 +39,7 @@ class FaceClustering:
     def rep_img(self):
         rep_img_paths = []  # 대표이미지 경로 저장
         label_indexs = []
-        cluster_count = 4  # 클러스터링 할 인물 수
+        cluster_count = 2  # 클러스터링 할 인물 수
         c = 0
         while c < cluster_count:
             rep_img_paths.append('')
@@ -87,7 +87,7 @@ class FaceClustering:
             for j in range(c, c + i):
                 if(target == self.kmeans.labels_[j]):
                     img = cv2.imread(self.path[k])
-                    cv2.imwrite(path + "/" + str(j), img)
+                    cv2.imwrite(path + "/" + str(j) + ".png", img)
                     break
             c = c + i
             k += 1
