@@ -18,7 +18,7 @@ class FaceClustering:
         self.kmeans = None
 
     # 폴더 내의 이미지들 얼굴 인식
-    def clustering(self):
+    def clustering(self, face_input):
         for i in self.files:
             img_rgb = Fr.bgr2rgb(cv2.imread(str(self.img_path) + str(i)))
             _, shapes, _ = Fr.find_faces(img_rgb)
@@ -31,15 +31,15 @@ class FaceClustering:
         # clt = DBSCAN(eps=0.5, metric="euclidean")
         # clt.fit(faces)
 
-        self.kmeans = KMeans(n_clusters=2, random_state=0).fit(faces)
+        self.kmeans = KMeans(n_clusters=face_input, random_state=0).fit(faces)
 
         print("kmeans labels =", self.kmeans.labels_)
         print("face_counts =", self.faces_count)
 
-    def rep_img(self):
+    def rep_img(self, face_input):
         rep_img_paths = []  # 대표이미지 경로 저장
         label_indexs = []
-        cluster_count = 2  # 클러스터링 할 인물 수
+        cluster_count = face_input  # 클러스터링 할 인물 수
         c = 0
         while c < cluster_count:
             rep_img_paths.append('')
@@ -80,6 +80,7 @@ class FaceClustering:
         CreateDirectory.create(path)
         target = self.kmeans.labels_[label_index]
         i = 0
+        result = []
 
         k = 0
         c = 0
@@ -88,10 +89,12 @@ class FaceClustering:
                 if(target == self.kmeans.labels_[j]):
                     img = cv2.imread(self.path[k])
                     cv2.imwrite(path + "/" + str(j) + ".png", img)
+                    result.append(j)
                     break
             c = c + i
             k += 1
 
+        return result
         #     
         # for lab in self.kmeans.labels_:
         #     target_path = self.path[i]
