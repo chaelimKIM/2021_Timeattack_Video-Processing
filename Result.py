@@ -1,5 +1,6 @@
 def convert_values(result):
     converted_result = []
+    result.sort()
 
     for i in result:
         m, s = divmod(i, 60)
