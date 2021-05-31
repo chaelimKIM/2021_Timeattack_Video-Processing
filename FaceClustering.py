@@ -78,6 +78,7 @@ class FaceClustering:
     def save_result(self, label_index, up_id):
         path = "C:/Users/MunsuYu/TimeAttack/TimeAttackFile/result"
         CreateDirectory.create(path + "/" + str(up_id))
+        print(path + "/" + str(up_id))
         target = self.kmeans.labels_[label_index]
         i = 0
         result = []
@@ -89,7 +90,7 @@ class FaceClustering:
                 if(target == self.kmeans.labels_[j]):
                     img = cv2.imread(self.path[k])
                     # cv2.imwrite(path + "/" + str(j) + ".png", img)
-                    cv2.imwrite(path + "/" + self.path[k][9+len(str(up_id)):], img)
+                    cv2.imwrite(path + "/" + self.path[k][10:], img)
                     result.append(int(self.path[k][11+len(str(up_id)):-4]))
                     break
             c = c + i
